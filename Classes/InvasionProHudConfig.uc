@@ -50,11 +50,9 @@ var() Automated moCheckBox bClassicRadar;
 var() Automated moCheckBox bTURRadar;
 #endif
 var() Automated moCheckBox bRadarShowElevationAsDistance;
-//var() Automated moCheckBox bDisplayNecroPool;
 var() Automated moCheckBox bDisplayPlayerList;
 var() Automated moCheckBox bSpecMonsters;
 var() Automated moCheckBox bStartThirdPerson;
-//var() Automated moCheckBox bDisplayMonsterHealthBars;
 var() Automated moCheckBox bDisplayBossNames;
 var() Automated moCheckBox bDisplayBossTimer;
 var() Automated moCheckBox bAddFriendlyMonstersToPlayerList;
