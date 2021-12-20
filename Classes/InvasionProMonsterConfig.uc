@@ -1665,7 +1665,7 @@ defaultproperties
 
      Begin Object Class=GUIGFXButton Name=PanLeft
          ImageIndex=7
-         Graphic=Texture'TURInvPro.arrowLeft_p'
+         Graphic=Texture'TURInvPro.GUI.arrowLeft_p'
          Position=ICP_Scaled
          StyleName="BindBox"
          Hint="Pan left."
@@ -1685,7 +1685,7 @@ defaultproperties
 
      Begin Object Class=GUIGFXButton Name=PanRight
          ImageIndex=7
-         Graphic=Texture'TURInvPro.arrowRight_p'
+         Graphic=Texture'TURInvPro.GUI.arrowRight_p'
          Position=ICP_Scaled
          StyleName="BindBox"
          Hint="Pan right."
@@ -1705,7 +1705,7 @@ defaultproperties
 
      Begin Object Class=GUIGFXButton Name=PanReset
          ImageIndex=7
-         Graphic=Texture'TURInvPro.arrowHome_p'
+         Graphic=Texture'TURInvPro.GUI.arrowHome_p'
          Position=ICP_Scaled
          StyleName="BindBox"
          Hint="Reset the view."
