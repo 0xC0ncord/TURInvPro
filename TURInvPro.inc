@@ -3,7 +3,7 @@
 #define __INVPRO_MAX_WAVE_MONSTERS__        30
 #define __INVPRO_MAX_MONSTER_TABLE_LEN__    1000
 
-#define ENABLE_TURINVX_RADAR   1
+#define ENABLE_TURINVX_RADAR   0
 
 #define __LINE__ #eval #line
 #define __FILE__ #eval #file
