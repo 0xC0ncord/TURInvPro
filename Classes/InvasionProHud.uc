@@ -420,203 +420,199 @@ simulated function ShowTeamScorePassA(Canvas C)
 
 simulated function ShowTeamScorePassC(Canvas C)
 {
-  local Pawn P;
-  local float Dist, MaxDist, RadarWidth, Angle, DotSize, OffsetY, PulseBrightness, OffsetScale;
-  local rotator Dir;
-  local vector Start;
-  local Material DrawMaterial;
-   local InvasionProMonsterIDInv Inv;
-   local vector End;
-   local float SizeScale;
+    local Pawn P;
+    local float Dist, MaxDist, RadarWidth, Angle, DotSize, OffsetY, PulseBrightness, OffsetScale;
+    local rotator Dir;
+    local vector Start;
+    local Material DrawMaterial;
+    local InvasionProMonsterIDInv Inv;
+    local vector End;
+    local float SizeScale;
 
-  LastDrawRadar = Level.TimeSeconds;
-  RadarWidth = 0.5 * RadarScale * HUDScale * C.ClipX;
-  if ( PawnOwner == None )
-      Start = PlayerOwner.Location;
-  else
-      Start = PawnOwner.Location;
+    LastDrawRadar = Level.TimeSeconds;
+    RadarWidth = 0.5 * RadarScale * HUDScale * C.ClipX;
+    if(PawnOwner == None)
+        Start = PlayerOwner.Location;
+    else
+        Start = PawnOwner.Location;
 
-   if(InvasionProGameReplicationInfo(PlayerOwner.GameReplicationInfo) != None)
-   {
-       if(!bMeshesLoaded && bDrawLoading)
-       {
-           DrawLoading(C);
-           C.Reset();
-       }
+    if(InvasionProGameReplicationInfo(PlayerOwner.GameReplicationInfo) != None)
+    {
+        if(!bMeshesLoaded && bDrawLoading)
+        {
+            DrawLoading(C);
+            C.Reset();
+        }
 
-       if(!InvasionProGameReplicationInfo(PlayerOwner.GameReplicationInfo).bHideMonsterCount && bDisplayMonsterCounter)
-       {
-           DrawMonsterCount(C);
-           C.Reset();
-       }
+        if(!InvasionProGameReplicationInfo(PlayerOwner.GameReplicationInfo).bHideMonsterCount && bDisplayMonsterCounter)
+        {
+            DrawMonsterCount(C);
+            C.Reset();
+        }
 
-       if(!InvasionProGameReplicationInfo(PlayerOwner.GameReplicationInfo).bHidePlayerList && bDisplayPlayerList)
-       {
-           DrawPlayerNames(C);
-           C.Reset();
-       }
+        if(!InvasionProGameReplicationInfo(PlayerOwner.GameReplicationInfo).bHidePlayerList && bDisplayPlayerList)
+        {
+            DrawPlayerNames(C);
+            C.Reset();
+        }
 
-       if(InvasionProGameReplicationInfo(PlayerOwner.GameReplicationInfo).bBossEncounter && bDisplayBossTimer)
-       {
-           DrawBossTime(C);
-           C.Reset();
-       }
+        if(InvasionProGameReplicationInfo(PlayerOwner.GameReplicationInfo).bBossEncounter && bDisplayBossTimer)
+        {
+            DrawBossTime(C);
+            C.Reset();
+        }
 
-       if(bDisplayBossNames && InvasionProGameReplicationInfo(PlayerOwner.GameReplicationInfo).bBossEncounter)
-       {
-           BossDrawPosition = 1;
-           DrawBossHealth(C);
-           C.Reset();
-       }
+        if(bDisplayBossNames && InvasionProGameReplicationInfo(PlayerOwner.GameReplicationInfo).bBossEncounter)
+        {
+            BossDrawPosition = 1;
+            DrawBossHealth(C);
+            C.Reset();
+        }
 
-       if(InvasionProGameReplicationInfo(PlayerOwner.GameReplicationInfo).bHideRadar || bHideRadar)
-       {
-           return;
-       }
-   }
+        if(InvasionProGameReplicationInfo(PlayerOwner.GameReplicationInfo).bHideRadar || bHideRadar)
+        {
+            return;
+        }
+    }
 
     MaxDist = 3000 * RadarPulse;
     OffsetY = RadarPosY + RadarWidth / C.ClipY;
     MinEnemyDist = 3000;
-   EnemyCount = 0;
+    EnemyCount = 0;
 
     foreach DynamicActors(class'Pawn', P)
     {
-        if ( P != None && P.Health > 0 )
+        if(P != None && P.Health > 0)
         {
-           if(bRadarShowElevationAsDistance)
-               Dist = VSize(Start - P.Location);
-           else
-           {
-               End = P.Location;
-               End.Z = Start.Z;
-               Dist = VSize(Start - End);
-           }
+            if(bRadarShowElevationAsDistance)
+                Dist = VSize(Start - P.Location);
+            else
+            {
+                End = P.Location;
+                End.Z = Start.Z;
+                Dist = VSize(Start - End);
+            }
 
-           if ( Dist < RadarRange )
-           {
-               if ( Dist < MaxDist )
-               {
-                   PulseBrightness = 255 - 255*Abs(Dist*0.00033 - RadarPulse);
-               }
-               else
-               {
-                   PulseBrightness = 255 - 255*Abs(Dist*0.00033 - RadarPulse - 5); //1
-               }
+            if(Dist < RadarRange)
+            {
+                if (Dist < MaxDist)
+                {
+                    PulseBrightness = 255 - 255 * Abs(Dist * 0.00033 - RadarPulse);
+                }
+                else
+                {
+                    PulseBrightness = 255 - 255 * Abs(Dist * 0.00033 - RadarPulse - 5); //1
+                }
 
-               MinEnemyDist = FMin(MinEnemyDist, Dist);
-               DrawMaterial = MonsterIcon;
-               DotSize = 10;
+                MinEnemyDist = FMin(MinEnemyDist, Dist);
+                DrawMaterial = MonsterIcon;
+                DotSize = 10;
 
-               if(bRadarShowElevationAsDistance)
-               {
-                   Dir = rotator(P.Location - Start);
-                   SizeScale = 1;
-               }
-               else
-               {
-                   Dir = rotator(End - Start);
-                   SizeScale = P.Location.Z-Start.Z;
-                   SizeScale/=6000;
-                   if( SizeScale>0.5 )
-                       SizeScale = 0.5;
-                   else if( SizeScale<-0.5 )
-                       SizeScale = -0.5;
-                   SizeScale+=1;
+                if(bRadarShowElevationAsDistance)
+                {
+                    Dir = rotator(P.Location - Start);
+                    SizeScale = 1;
+                }
+                else
+                {
+                    Dir = rotator(End - Start);
+                    SizeScale = P.Location.Z - Start.Z;
+                    SizeScale /= 6000;
+                    SizeScale = 1 + FClamp(SizeScale, -0.5, 0.5);
                }
 
                //owner
                if(PawnOwner == P)
                {
-                   C.DrawColor = OwnerColor;
-                   DrawMaterial = OwnerIcon;
-                   DotSize *= OwnerDotScale;
+                    C.DrawColor = OwnerColor;
+                    DrawMaterial = OwnerIcon;
+                    DotSize *= OwnerDotScale;
                }
                else if(Monster(P) != None && P.DrivenVehicle == None)
                {
-                   foreach DynamicActors(class'InvasionProMonsterIDInv',Inv)
-                   {
-                       if(Inv.MyMonster == Monster(P))
-                       {
-                           //pets
-                           if(Inv.bFriendly)
-                           {
-                               C.DrawColor = FriendlyMonsterColor;
-                               DrawMaterial = FriendlyMonsterIcon;
-                               DotSize *= FriendlyMonsterDotScale;
-                           }
-                           //morph monsters
-                           else if(Inv.bPlayerControlled)
-                           {
-                               C.DrawColor = PlayerColor;
-                               DrawMaterial = FriendlyPlayerIcon;
-                               DotSize *= FriendlyPlayerDotScale;
-                           }
-                           //enemy monsters
-                           else
-                           {
-                               C.DrawColor = MonsterColor;
-                               EnemyCount++;
-                               DotSize *= MonsterDotScale;
-                           }
-                           break;
-                       }
-                   }
-               }
-               //vehicles
-               else if ( Vehicle(P) != None )
-               {
-                   //monster-driven vehicles
-                   if(Monster(Vehicle(P).Driver)!=None)
-                   {
-                       C.DrawColor = MonsterColor;
-                       EnemyCount++;
-                       DotSize *= MonsterDotScale;
-                   }
-                   //player-driven vehicles
-                   else if(Vehicle(P).Driver!=None)
-                   {
-                       C.DrawColor = PlayerColor;
-                       DrawMaterial = FriendlyPlayerIcon;
-                       DotSize *= FriendlyPlayerDotScale;
-                   }
-                   //vehicles without drivers
-                   else
-                   {
-                       C.DrawColor = MiscColor;
-                       DrawMaterial = MiscIcon;
-                       DotSize *= MiscDotScale;
-                   }
-               }
-               //blocks and barrels
-               else if ( P.IsA('DruidBlock') || P.IsA('DruidExplosive') )
-               {
-                   C.DrawColor = MiscColor;
-                   DrawMaterial = MiscIcon;
-                   DotSize *= MiscDotScale;
-               }
-               //players
-               else
-               {
-                   C.DrawColor = PlayerColor;
-                   DrawMaterial = FriendlyPlayerIcon;
-                   DotSize *= FriendlyPlayerDotScale;
-               }
+                    foreach DynamicActors(class'InvasionProMonsterIDInv',Inv)
+                    {
+                        if(Inv.MyMonster == Monster(P))
+                        {
+                            //pets
+                            if(Inv.bFriendly)
+                            {
+                                C.DrawColor = FriendlyMonsterColor;
+                                DrawMaterial = FriendlyMonsterIcon;
+                                DotSize *= FriendlyMonsterDotScale;
+                            }
+                            //morph monsters
+                            else if(Inv.bPlayerControlled)
+                            {
+                                C.DrawColor = PlayerColor;
+                                DrawMaterial = FriendlyPlayerIcon;
+                                DotSize *= FriendlyPlayerDotScale;
+                            }
+                            //enemy monsters
+                            else
+                            {
+                                C.DrawColor = MonsterColor;
+                                EnemyCount++;
+                                DotSize *= MonsterDotScale;
+                            }
+                            break;
+                        }
+                    }
+                }
+                //vehicles
+                else if ( Vehicle(P) != None )
+                {
+                    //monster-driven vehicles
+                    if(Monster(Vehicle(P).Driver)!=None)
+                    {
+                        C.DrawColor = MonsterColor;
+                        EnemyCount++;
+                        DotSize *= MonsterDotScale;
+                    }
+                    //player-driven vehicles
+                    else if(Vehicle(P).Driver!=None)
+                    {
+                        C.DrawColor = PlayerColor;
+                        DrawMaterial = FriendlyPlayerIcon;
+                        DotSize *= FriendlyPlayerDotScale;
+                    }
+                    //vehicles without drivers
+                    else
+                    {
+                        C.DrawColor = MiscColor;
+                        DrawMaterial = MiscIcon;
+                        DotSize *= MiscDotScale;
+                    }
+                }
+                //blocks and barrels
+                else if(P.IsA('DruidBlock') || P.IsA('DruidExplosive'))
+                {
+                     C.DrawColor = MiscColor;
+                     DrawMaterial = MiscIcon;
+                     DotSize *= MiscDotScale;
+                }
+                //players
+                else
+                {
+                    C.DrawColor = PlayerColor;
+                    DrawMaterial = FriendlyPlayerIcon;
+                    DotSize *= FriendlyPlayerDotScale;
+                }
 
-               C.Style = ERenderStyle.STY_Translucent;
-               C.DrawColor.A = PulseBrightness;
-               OffsetScale = RadarScale*Dist*0.000167;
-               Angle = ((Dir.Yaw - PlayerOwner.Rotation.Yaw) & 65535) * 6.2832/65536;
-               C.SetPos(RadarPosX * C.ClipX + OffsetScale * C.ClipX * HUDScale * sin(Angle) - 0.5*DotSize*SizeScale,
-                   OffsetY * C.ClipY - OffsetScale * C.ClipX * HUDScale * cos(Angle) - 0.5*DotSize*SizeScale);
-               if(DrawMaterial != None)
-               {
-                   C.DrawTile(DrawMaterial,DotSize*SizeScale, DotSize*SizeScale, DotUCoordinate, DotVCoordinate, DotULWidth, DotVLHeight);
-               }
-      }
+                C.Style = ERenderStyle.STY_Translucent;
+                C.DrawColor.A = PulseBrightness;
+                OffsetScale = RadarScale * Dist * 0.000167;
+                Angle = ((Dir.Yaw - PlayerOwner.Rotation.Yaw) & 65535) * 6.2832 / 65536;
+                C.SetPos(RadarPosX * C.ClipX + OffsetScale * C.ClipX * HUDScale * sin(Angle) - 0.5 * DotSize * SizeScale,
+                    OffsetY * C.ClipY - OffsetScale * C.ClipX * HUDScale * cos(Angle) - 0.5 * DotSize * SizeScale);
+                if(DrawMaterial != None)
+                {
+                    C.DrawTile(DrawMaterial,DotSize*SizeScale, DotSize*SizeScale, DotUCoordinate, DotVCoordinate, DotULWidth, DotVLHeight);
+                }
+            }
+        }
     }
-   }
-   C.Reset();
+    C.Reset();
 }
 
 simulated function DrawBossHealth(Canvas C)
