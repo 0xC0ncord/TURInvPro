@@ -54,7 +54,6 @@ function Timer()
 
     if((bBoss && Game.bBossActive && Game.WaveBossID.Length <= 0 && (Game.bBossesSpawnTogether || !Game.bBossesSpawnTogether)) || (Game.bBossFinished && Game.bAdvanceWaveWhenBossKilled))
    {
-       Level.GetLocalPlayerController().ClientMessage("pingas");
        Game.CurrentBeamIns--;
        return;
    }
