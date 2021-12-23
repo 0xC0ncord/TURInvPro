@@ -529,33 +529,28 @@ defaultproperties
     End Object
     Emitters(9)=SpriteEmitter'FX_MonsterSpawn.SpriteEmitter35'
 
-    Begin Object Class=SpriteEmitter Name=SpriteEmitter12
-       Disabled=True
-//     CoordinateSystem=PTCS_Relative
-        UseDirectionAs=PTDU_Up
+    Begin Object Class=TrailEmitter Name=TrailEmitter0
+        Disabled=True
+        TrailShadeType=PTTST_Linear
+        MaxPointsPerTrail=60
+        DistanceThreshold=4.000000
+        UseCrossedSheets=True
         UseColorScale=True
-        FadeOut=True
-        FadeIn=True
         RespawnDeadParticles=False
         UseRevolution=True
-        UniformSize=True
-        ScaleSizeYByVelocity=True
         AutomaticInitialSpawning=False
         ColorScale(0)=(Color=(B=255,G=255))
         ColorScale(1)=(RelativeTime=1.000000,Color=(B=255,G=255))
-        FadeOutStartTime=1.750000
-        FadeInEndTime=0.250000
-        MaxParticles=200
+        MaxParticles=20
         StartLocationOffset=(X=32.000000,Z=-64.000000)
         RevolutionsPerSecondRange=(Z=(Min=3.000000,Max=3.000000))
-        StartSizeRange=(X=(Min=8.000000,Max=8.000000))
-        ScaleSizeByVelocityMultiplier=(Y=0.050000)
-        InitialParticlesPerSecond=100.000000
-        Texture=Texture'AW-2004Particles.Weapons.HardSpot'
+        StartSizeRange=(X=(Min=12.000000,Max=12.000000))
+        InitialParticlesPerSecond=10.000000
+        Texture=Texture'EpicParticles.Beams.WhiteStreak01aw'
         LifetimeRange=(Min=2.000000,Max=2.000000)
         StartVelocityRange=(Z=(Min=64.000000,Max=64.000000))
     End Object
-    Emitters(10)=SpriteEmitter'FX_MonsterSpawn.SpriteEmitter12'
+    Emitters(10)=TrailEmitter'FX_MonsterSpawn.TrailEmitter0'
 
     Begin Object Class=SpriteEmitter Name=SpriteEmitter37
        Disabled=True
