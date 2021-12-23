@@ -2474,7 +2474,6 @@ function SetUpWave()
                CurrentMonsterClass = class<Monster>(DynamicLoadObject(class'InvasionProMonsterTable'.default.MonsterTable[h].MonsterClassName, class'Class', true));
            }
        }
-       Log(CurrentMonsterClass);
 
        if(CurrentMonsterClass != None)
        {
