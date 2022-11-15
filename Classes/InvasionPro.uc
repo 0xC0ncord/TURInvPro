@@ -2423,9 +2423,9 @@ function PreSetUpWave()
 {
    WaveID = WaveTable[WaveNum];
    BossID = BossTable[WaveNum];
-   InvasionProGameReplicationInfo(GameReplicationInfo).WaveDrawColour = class'InvasionProConfigs'.default.Waves[WaveNum].WaveDrawColour;
-   InvasionProGameReplicationInfo(GameReplicationInfo).WaveName = class'InvasionProConfigs'.default.Waves[WaveNum].WaveName;
-   InvasionProGameReplicationInfo(GameReplicationInfo).WaveSubName = class'InvasionProConfigs'.default.Waves[WaveNum].WaveSubName;
+   InvasionProGameReplicationInfo(GameReplicationInfo).WaveDrawColour = class'InvasionProConfigs'.default.Waves[WaveID].WaveDrawColour;
+   InvasionProGameReplicationInfo(GameReplicationInfo).WaveName = class'InvasionProConfigs'.default.Waves[WaveID].WaveName;
+   InvasionProGameReplicationInfo(GameReplicationInfo).WaveSubName = class'InvasionProConfigs'.default.Waves[WaveID].WaveSubName;
 }
 
 function SetUpWave()
@@ -2442,19 +2442,20 @@ function SetUpWave()
    bIgnoreFallback = false;
    FallbackTimer = 0;
    WaveMonsters = 0; //the number of monsters spawned so far, this should be 0 at this stage
-   MaxMonsters = class'InvasionProConfigs'.default.Waves[WaveNum].MaxMonsters; //update new max monsters allowed (over ridden if bBalanceMonsters)
-   WaveMaxMonsters = class'InvasionProConfigs'.default.Waves[WaveNum].WaveMaxMonsters; //update new wave max monsters (total monsters to spawn)
-   MonstersPerPlayerCurve = class'InvasionProConfigs'.default.Waves[WaveNum].MonstersPerPlayerCurve;
+   MaxMonsters = class'InvasionProConfigs'.default.Waves[WaveID].MaxMonsters; //update new max monsters allowed (over ridden if bBalanceMonsters)
+   WaveMaxMonsters = class'InvasionProConfigs'.default.Waves[WaveID].WaveMaxMonsters; //update new wave max monsters (total monsters to spawn)
+   MonstersPerPlayerCurve = class'InvasionProConfigs'.default.Waves[WaveID].MonstersPerPlayerCurve;
+   AmbientMonsterSpawnChance = class'InvasionProConfigs'.default.Waves[WaveID].AmbientMonsterSpawnChance;
 
    if(!bWaveTimeLimit && !bWaveMonsterLimit)
    {
        //default to wave time limit
        bWaveTimeLimit = True;
-       class'InvasionProConfigs'.default.Waves[WaveNum].WaveDuration = 90;
+       class'InvasionProConfigs'.default.Waves[WaveID].WaveDuration = 90;
    }
 
-   WaveEndTime = Level.TimeSeconds + class'InvasionProConfigs'.default.Waves[WaveNum].WaveDuration; //update the new waves wave duration
-   AdjustedDifficulty = GameDifficulty + class'InvasionProConfigs'.default.Waves[WaveNum].WaveDifficulty; //game difficulty setting, changes AI
+   WaveEndTime = Level.TimeSeconds + class'InvasionProConfigs'.default.Waves[WaveID].WaveDuration; //update the new waves wave duration
+   AdjustedDifficulty = GameDifficulty + class'InvasionProConfigs'.default.Waves[WaveID].WaveDifficulty; //game difficulty setting, changes AI
    WaveNumClasses = 0; //set number of available monster classes to 0
    NumKilledMonsters = 0;
    bTryingFallbackBoss = false;
@@ -2469,7 +2470,7 @@ function SetUpWave()
        for(h = 0; h < class'InvasionProMonsterTable'.default.MonsterTable.Length; h++)
        {
            //search for matching monster classes
-           if(class'InvasionProConfigs'.default.Waves[WaveNum].Monsters[i] != "None" && class'InvasionProConfigs'.default.Waves[WaveNum].Monsters[i] ~= class'InvasionProMonsterTable'.default.MonsterTable[h].MonsterName)
+           if(class'InvasionProConfigs'.default.Waves[WaveID].Monsters[i] != "None" && class'InvasionProConfigs'.default.Waves[WaveID].Monsters[i] ~= class'InvasionProMonsterTable'.default.MonsterTable[h].MonsterName)
            {
                CurrentMonsterClass = class<Monster>(DynamicLoadObject(class'InvasionProMonsterTable'.default.MonsterTable[h].MonsterClassName, class'Class', true));
            }
@@ -2482,7 +2483,7 @@ function SetUpWave()
        }
    }
    //set up fallback monster
-   FallBackMonsterName = class'InvasionProConfigs'.default.Waves[WaveNum].WaveFallbackMonster; //get fall back monster name
+   FallBackMonsterName = class'InvasionProConfigs'.default.Waves[WaveID].WaveFallbackMonster; //get fall back monster name
    if(FallBackMonsterName != "None")
    {
        for(i=0;i<class'InvasionProMonsterTable'.default.MonsterTable.Length;i++)
